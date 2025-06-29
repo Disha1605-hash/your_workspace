@@ -7,7 +7,8 @@ from users import users
 from quotes import quote_bp  # 👈 include blueprint
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://yourworkspace-five.vercel.app"}}, supports_credentials=True)
+CORS(app, origins=["https://yourworkspace-five.vercel.app"], supports_credentials=True)
+
 
 # Register quote blueprint
 app.register_blueprint(quote_bp)
