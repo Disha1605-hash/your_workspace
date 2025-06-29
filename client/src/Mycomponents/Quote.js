@@ -19,7 +19,7 @@ function Quote() {
     try {
       // First try to add quote to an existing user
       let userId;
-      const userRes = await fetch('http://localhost:5000/get-user-id', {
+      const userRes = await fetch('https://your-workspace.onrender.com/get-user-id', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -31,7 +31,7 @@ function Quote() {
         userId = userData.user_id;
       } else {
         // If user not found, create user here
-        const res = await fetch('http://localhost:5000/register', {
+        const res = await fetch('https://your-workspace.onrender.com/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, email, password }),
@@ -46,7 +46,7 @@ function Quote() {
       }
 
       if (includeQuote && quote.trim()) {
-        const quoteRes = await fetch('http://localhost:5000/quote', {
+        const quoteRes = await fetch('https://your-workspace.onrender.com/quote', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_id: userId, quote }),

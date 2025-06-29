@@ -59,7 +59,7 @@ function Main() {
     if (!confirmed) return;
 
     try {
-      const response = await axios.post('http://localhost:5000/delete_account', {
+      const response = await axios.post('https://your-workspace.onrender.com/delete_account', {
         email: user.email,
       });
 

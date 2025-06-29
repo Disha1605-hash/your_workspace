@@ -59,7 +59,7 @@ function Workspace() {
   useEffect(() => {
     const fetchQuoteAndImage = async () => {
       try {
-        const response = await fetch('http://localhost:5000/quote');
+        const response = await fetch('https://your-workspace.onrender.com/quote');
         const data = await response.json();
         setQuote(data.quote || "Stay focused and productive!");
         setQuoteAuthor(data.username || "Anonymous");
