@@ -1,10 +1,10 @@
-import pymysql
+import mysql.connector
+import os
 
 def get_connection():
-    return pymysql.connect(
-        host="localhost",
-        user="root",
-        password="Direction@123",
-        database="your_workspace",
-        cursorclass=pymysql.cursors.DictCursor
+    return mysql.connector.connect(
+        host=os.environ['DB_HOST'],
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        database=os.environ['DB_NAME']
     )
