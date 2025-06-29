@@ -1,0 +1,477 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  background: linear-gradient(135deg, hsl(100, 43%, 94%) 0%, hsl(100, 50%, 97%) 50%, hsl(100, 43%, 94%) 100%);
+}
+
+.workspace-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 60% 40%; /* 🔁 Updated for 60% timer, 40% todo */
+  height: 100vh;
+  gap: 20px;
+  padding: 20px;
+}
+
+.video-section {
+  grid-column: 1;
+  grid-row: 1;
+  background: linear-gradient(135deg, hsl(142, 28%, 40%) 0%, hsl(142, 43%, 23%) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(45, 90, 61, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.quote-section {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, hsl(142, 30%, 56%) 0%, hsl(142, 23%, 50%) 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(45, 90, 61, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
+}
+
+/* ✅ Swapped positions */
+.todo-section {
+  grid-column: 2;
+  grid-row: 1; /* 🔁 Moved todo to row 1 */
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, hsl(0, 0%, 100%) 0%, hsl(210, 17%, 98%) 100%);
+  color: hsl(142, 43%, 23%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(45, 90, 61, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.timer-section {
+  grid-column: 2;
+  grid-row: 2; /* 🔁 Moved timer to row 2 */
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: linear-gradient(135deg, hsl(48, 100%, 67%) 0%, hsl(39, 100%, 50%) 100%);
+  color: hsl(142, 43%, 23%);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(45, 90, 61, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  margin-bottom: 40px;
+}
+
+/* Video dropdown */
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dropdown-container label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.custom-select {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.custom-select option {
+  background: hsl(142, 43%, 23%);
+  color: white;
+}
+
+.video-frame {
+  flex: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Quote styles */
+.cartoon-container {
+  width: 150px;
+  height: 170px;
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 4px 16px rgba(45, 90, 61, 0.3);
+}
+
+.cartoon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.quote-bubble {
+  background: rgba(255, 255, 255, 0.9);
+  color: hsl(142, 43%, 23%);
+  padding: 16px 40px;
+  border-radius: 20px 20px 20px 4px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.5;
+  position: relative;
+  animation: fadeInSlide 0.8s ease-out;
+}
+
+.quote-author {
+  font-size: 20px;
+  margin-top: 8px;
+  opacity: 0.8;
+  font-style: normal;
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+.timer-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timer-display {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: hsl(142, 43%, 23%);
+  text-align: center;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-label {
+  font-weight: 600;
+  min-width: 80px;
+  font-size: 14px;
+}
+
+.timer-select {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(45, 90, 61, 0.3);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: hsl(142, 43%, 23%);
+  cursor: pointer;
+}
+
+.timer-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.timer-button {
+  background: hsl(142, 43%, 23%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-button:hover {
+  background: hsl(142, 28%, 40%);
+}
+
+.timer-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Todo Section */
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid hsl(100, 43%, 94%);
+  padding-bottom: 12px;
+}
+
+.todo-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: hsl(142, 43%, 23%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-task-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.task-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid hsl(100, 43%, 94%);
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+}
+
+.task-input:focus {
+  outline: none;
+  border-color: hsl(142, 23%, 50%);
+}
+
+.add-button {
+  background: hsl(142, 28%, 40%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background: hsl(142, 43%, 23%);
+}
+
+.todo-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: hsl(142, 15%, 45%);
+  font-style: italic;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid hsl(100, 50%, 97%);
+  transition: all 0.3s ease;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.todo-item:hover {
+  background: hsl(210, 17%, 98%);
+  padding-left: 8px;
+  border-radius: 6px;
+}
+
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid hsl(142, 23%, 50%);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo-checkbox.checked {
+  background: hsl(142, 28%, 40%);
+  border-color: hsl(142, 28%, 40%);
+  color: white;
+}
+
+.todo-text {
+  flex: 1;
+  font-size: 14px;
+}
+
+.todo-text.completed {
+  text-decoration: line-through;
+  color: hsl(142, 15%, 45%);
+}
+
+.delete-button {
+  color: hsl(0, 84%, 60%);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0;
+}
+
+.todo-item:hover .delete-button {
+  opacity: 1;
+}
+
+.delete-button:hover {
+  background: hsl(0, 84%, 95%);
+  transform: scale(1.1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .workspace-container {
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .timer-display {
+    font-size: 20px;
+  }
+}
+
+.timer-clock {
+  width: 165px;
+  height: 165px;
+  border-radius: 50%;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.clock-face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  background: #222;
+}
+
+.clock-number {
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  transform: translate(-50%, -50%);
+}
+
+.num-12 { top: 10px; left: 50%; }
+.num-3 { top: 50%; left: 145px; }
+.num-6 { top: 140px; left: 50%; }
+.num-9 { top: 50%; left: 10px; }
+
+.clock-center {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 51.5%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.minute-hand {
+  position: absolute;
+  width: 4px;
+  transform-origin: bottom center;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  border-radius: 4px;
+}
+
+
+
+.minute-hand {
+  height: 50px;
+  background: #e67e22;
+  z-index: 6;
+}
+.workspace-nav {
+  position: fixed;
+  bottom: 5px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.return-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.return-btn:hover {
+  background-color: rgb(0, 0, 0);
+}

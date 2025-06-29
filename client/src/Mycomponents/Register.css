@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Quicksand', sans-serif,'Raleway';
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.register-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+.register-box {
+    position: relative;
+    z-index: 1;
+    background: rgb(251 253 250);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: 40px;
+    max-width: 900px;
+    width: 100%;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.register-image img {
+  max-width: 350px;
+  height: auto;
+}
+
+.register-form h3 {
+  font-family: 'Dancing Script',cursive;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
+  text-align: left;
+}
+
+.form-control {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid #000000;;
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 400px;      
+    box-sizing: border-box;
+}
+
+
+.small-input {
+  max-width: 250px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.btn {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 16px;
+  width: 40%;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #357ab7;
+}
+
+.message {
+  text-align: center;
+  margin-top: 16px;
+  font-weight: 500;
+  color: green;
+}
+.login-redirect {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #000;
+  text-align: center;
+}
+
+.login-link {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #28a745; 
+}
+
+.redirect-msg {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.redirect-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
