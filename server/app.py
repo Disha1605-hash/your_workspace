@@ -20,12 +20,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Database connection
 def get_connection():
     return pymysql.connect(
-        host="localhost",
-        user="root",
-        password="Direction@123",
-        database="your_workspace",
+        host="bdkhottcwh8m9x33k5u5-mysql.services.clever-cloud.com",
+        user="ua3lg4aaeojwygke",
+        password="NZY3XliGPSbgwErONdXg",
+        database="bdkhottcwh8m9x33k5u5",
+        port=3306,
         cursorclass=pymysql.cursors.DictCursor
     )
+
 
 @app.route('/')
 def home():
