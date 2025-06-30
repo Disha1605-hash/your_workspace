@@ -88,7 +88,6 @@ def register():
 
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
-
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -117,7 +116,7 @@ def login():
         if user['password'] != hashed_pw:
             cursor.close()
             conn.close()
-            return jsonify({'error': 'Incorrect password'}), 401
+            return jsonify({'error': 'Incorrect password'}), 401  # ✅ Fix is here
 
         cursor.close()
         conn.close()
@@ -133,6 +132,7 @@ def login():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 @app.route('/get-user-id', methods=['POST', 'OPTIONS'])
 def get_user_id():
