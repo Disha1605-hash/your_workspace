@@ -94,7 +94,7 @@ def login():
     if not data:
         return jsonify({'error': 'No data received'}), 400
 
-    identifier = data.get('username')
+    identifier = data.get('identifier')
     password = data.get('password')
 
     if not identifier or not password:
