@@ -8,6 +8,7 @@ users = Blueprint('users', __name__)
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
+# ---------------- REGISTER ROUTE ----------------
 @users.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -46,17 +47,23 @@ def register():
         cursor.close()
         conn.close()
 
+# ---------------- LOGIN ROUTE ----------------
 @users.route('/login', methods=['POST', 'OPTIONS'])
 def login():
     if request.method == 'OPTIONS':
         return '', 200
 
     data = request.get_json()
+    print("Login data received:", data)  # Debug log
+
     if not data:
         return jsonify({'error': 'No data received'}), 400
 
-    identifier = data.get('identifier')
+    identifier = data.get('identifier')  # ✅ match frontend key
     password = data.get('password')
+
+    print("identifier:", identifier)  # Debug log
+    print("password:", password)
 
     if not identifier or not password:
         return jsonify({'error': 'Missing credentials'}), 400
@@ -92,6 +99,7 @@ def login():
         cursor.close()
         conn.close()
 
+# ---------------- DELETE ACCOUNT ROUTE ----------------
 @users.route('/delete_account', methods=['POST'])
 def delete_account():
     data = request.get_json()
@@ -104,7 +112,6 @@ def delete_account():
     cursor = conn.cursor()
 
     try:
-        # Delete from users table
         cursor.execute("DELETE FROM users WHERE email = %s", (email,))
         conn.commit()
 
