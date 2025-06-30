@@ -8,7 +8,6 @@ users = Blueprint('users', __name__)
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# ---------------- REGISTER ROUTE ----------------
 @users.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -47,22 +46,21 @@ def register():
         cursor.close()
         conn.close()
 
-# ---------------- LOGIN ROUTE ----------------
 @users.route('/login', methods=['POST', 'OPTIONS'])
 def login():
     if request.method == 'OPTIONS':
         return '', 200
 
     data = request.get_json()
-    print("Login data received:", data)  # Debug log
+    print("Login data received:", data)
 
     if not data:
         return jsonify({'error': 'No data received'}), 400
 
-    identifier = data.get('identifier')  # ✅ match frontend key
+    identifier = data.get('identifier')
     password = data.get('password')
 
-    print("identifier:", identifier)  # Debug log
+    print("identifier:", identifier)
     print("password:", password)
 
     if not identifier or not password:
@@ -95,29 +93,6 @@ def login():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-# ---------------- DELETE ACCOUNT ROUTE ----------------
-@users.route('/delete_account', methods=['POST'])
-def delete_account():
-    data = request.get_json()
-    email = data.get('email')
-
-    if not email:
-        return jsonify({'success': False, 'error': 'Email is required'}), 400
-
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("DELETE FROM users WHERE email = %s", (email,))
-        conn.commit()
-
-        return jsonify({'success': True, 'message': 'Account deleted'}), 200
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
     finally:
         cursor.close()
         conn.close()
