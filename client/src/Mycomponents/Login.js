@@ -18,12 +18,17 @@ function Login() {
     try {
       const res = await fetch('https://your-workspace.onrender.com/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(form),
       });
 
+      // Debugging aid
+      console.log('Raw response:', res);
 
       const data = await res.json();
+      console.log('Parsed data:', data);
 
       if (res.status === 200 && data.success) {
         const user = data.user;
@@ -43,6 +48,7 @@ function Login() {
         setMessage(data.error || 'Login failed. Try again later.');
       }
     } catch (error) {
+      console.error('Login error:', error);
       setMessage('Something went wrong. Please try again.');
     }
   };
@@ -53,7 +59,11 @@ function Login() {
       style={{
         backgroundImage: `url('/bg.jpeg')`,
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
         minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       <div className="login-box">
@@ -86,6 +96,7 @@ function Login() {
           />
 
           <button type="submit" className="btn">Login</button>
+
           {message && <p className="message">{message}</p>}
         </form>
       </div>
