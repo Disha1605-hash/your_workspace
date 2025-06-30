@@ -24,11 +24,17 @@ function Login() {
         body: JSON.stringify(form),
       });
 
-      // Debugging aid
-      console.log('Raw response:', res);
+      // 🔍 Debug: show raw text response
+      const text = await res.text();
+      console.log('Raw response text:', text);
 
-      const data = await res.json();
-      console.log('Parsed data:', data);
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        setMessage('Invalid server response: ' + text);
+        return;
+      }
 
       if (res.status === 200 && data.success) {
         const user = data.user;
@@ -59,11 +65,7 @@ function Login() {
       style={{
         backgroundImage: `url('/bg.jpeg')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
         minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
       }}
     >
       <div className="login-box">
@@ -96,7 +98,6 @@ function Login() {
           />
 
           <button type="submit" className="btn">Login</button>
-
           {message && <p className="message">{message}</p>}
         </form>
       </div>
