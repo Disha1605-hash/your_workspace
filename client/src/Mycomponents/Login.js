@@ -66,9 +66,9 @@ function Login() {
           <label className="form-label">Email or Username</label>
           <input
             type="text"
-            name="username"
+            name="identifier"
             className="form-control"
-            value={form.username}
+            value={form.identifier}
             onChange={handleChange}
             placeholder="Enter your email or username"
             required
