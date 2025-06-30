@@ -51,32 +51,33 @@ def login():
     if request.method == 'OPTIONS':
         return '', 200
 
-    data = request.get_json()
-    print("Login data received:", data)
-
-    if not data:
-        return jsonify({'error': 'No data received'}), 400
-
-    identifier = data.get('identifier')
-    password = data.get('password')
-
-    print("identifier:", identifier)
-    print("password:", password)
-
-    if not identifier or not password:
-        return jsonify({'error': 'Missing credentials'}), 400
-
-    conn = get_connection()
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
-
     try:
+        # Force parse JSON
+        data = request.get_json(force=True)
+        print("Login data received:", data)
+
+        if not isinstance(data, dict):
+            return jsonify({'error': 'Invalid JSON structure'}), 400
+
+        identifier = data.get('identifier')
+        password = data.get('password')
+
+        print("identifier:", identifier)
+        print("password:", password)
+
+        if not identifier or not password:
+            return jsonify({'error': 'Missing credentials'}), 400
+
+        conn = get_connection()
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
+
         cursor.execute("SELECT * FROM users WHERE username = %s OR email = %s", (identifier, identifier))
         user = cursor.fetchone()
 
         if not user:
             return jsonify({'error': 'User not found'}), 404
 
-        hashed_pw = hash_password(password)
+        hashed_pw = hashlib.sha256(password.encode()).hexdigest()
         if user['password'] != hashed_pw:
             return jsonify({'error': 'Incorrect password'}), 401
 
@@ -92,7 +93,6 @@ def login():
         }), 200
 
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
+        print("Login Error:", str(e))
+        return jsonify({'error': f'Login failed: {str(e)}'}), 500
+
