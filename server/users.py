@@ -106,32 +106,36 @@ def delete_account():
         print("🧪 Received payload:", data)
 
         email = data.get('email')
+        print("🔍 Email to delete:", email)
+
         if not email:
+            print("❌ Missing email!")
             return jsonify({'success': False, 'error': 'Email is required'}), 400
 
         conn = get_connection()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)  
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
 
         cursor.execute("DELETE FROM users WHERE email = %s", (email,))
         conn.commit()
 
         if cursor.rowcount == 0:
-            print("No user found with email:", email)
+            print("❌ No user found with email:", email)
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
-        print("Deleted user with email:", email)
+        print("✅ Deleted user with email:", email)
         return jsonify({'success': True, 'message': 'Account deleted'}), 200
 
     except Exception as e:
-        print("Delete Account Error:", str(e)) 
+        print("🔥 Delete Account Error:", str(e)) 
         return jsonify({'success': False, 'error': str(e)}), 500
 
     finally:
         try:
             cursor.close()
             conn.close()
-        except:
-            pass
+        except Exception as close_err:
+            print("⚠️ Error closing DB:", close_err)
+
 
 
 
