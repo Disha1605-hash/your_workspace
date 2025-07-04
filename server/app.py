@@ -9,6 +9,12 @@ from quotes import quote_bp  # 👈 include blueprint
 app = Flask(__name__)
 CORS(app, origins=["https://yourworkspace-five.vercel.app"], supports_credentials=True)
 
+db_config = {
+    "host": "bdkhottcwh8m9x33k5u5-mysql.services.clever-cloud.com",
+    "user": "ua3lg4aaeojwygke",
+    "password": "NZY3XliGPSbgwErONdXg",
+    "database": "bdkhottcwh8m9x33k5u5"
+}
 
 # Register quote blueprint
 app.register_blueprint(quote_bp)
