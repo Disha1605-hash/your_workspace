@@ -109,16 +109,17 @@ def delete_account():
         if not email:
             return jsonify({'success': False, 'error': 'Email is required'}), 400
 
-        email = email.lower()  # ✅ Force lowercase
+        email = email.strip().lower()  # ✅ Normalize email
 
         conn = get_connection()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)  
+        cursor = conn.cursor(pymysql.cursors.DictCursor)
 
-        cursor.execute("DELETE FROM users WHERE LOWER(email) = %s", (email,))
+        query = "DELETE FROM users WHERE LOWER(email) = %s"
+        cursor.execute(query, (email,))
         conn.commit()
 
         if cursor.rowcount == 0:
-            print("No user found with email:", email)
+            print("❌ No user found with email:", email)
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
         print("✅ Deleted user with email:", email)
@@ -126,7 +127,7 @@ def delete_account():
 
     except Exception as e:
         print("❌ Delete Account Error:", str(e)) 
-        return jsonify({'success': False, 'error': str(e)}), 500
+        return jsonify({'success': False, 'error': f'Deletion failed: {str(e)}'}), 500
 
     finally:
         try:
