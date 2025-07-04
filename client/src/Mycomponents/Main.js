@@ -60,7 +60,7 @@ function Main() {
 
     try {
       const response = await axios.post('https://your-workspace.onrender.com/delete_account', {
-        email: user.email,
+        email: user.email.toLowerCase().trim(),
       });
 
       console.log('Account deleted:', response.data);
