@@ -96,3 +96,28 @@ def login():
         print("Login Error:", str(e))
         return jsonify({'error': f'Login failed: {str(e)}'}), 500
 
+@users.route('/delete_account', methods=['POST'])
+def delete_account():
+    data = request.get_json()
+    if not data or 'email' not in data:
+        return jsonify({'success': False, 'error': 'Email required'}), 400
+
+    email = data['email']
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("DELETE FROM users WHERE email = %s", (email,))
+        conn.commit()
+        if cursor.rowcount == 0:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+        return jsonify({'success': True, 'message': 'Account deleted'}), 200
+    except Exception as e:
+        print("Delete Account Error:", str(e))
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
