@@ -4,6 +4,7 @@ import pymysql
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from users import users
+app.register_blueprint(users)
 from quotes import quote_bp  # 👈 include blueprint
 
 app = Flask(__name__)
