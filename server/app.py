@@ -4,7 +4,6 @@ import pymysql
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from users import users
-app.register_blueprint(users)
 from quotes import quote_bp  # 👈 include blueprint
 
 app = Flask(__name__)
@@ -13,6 +12,7 @@ CORS(app, origins=["https://yourworkspace-five.vercel.app"], supports_credential
 
 # Register quote blueprint
 app.register_blueprint(quote_bp)
+app.register_blueprint(users)
 
 # Upload folder config
 UPLOAD_FOLDER = 'uploads/profile_images'
