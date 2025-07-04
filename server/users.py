@@ -15,7 +15,7 @@ def register():
         return jsonify({'success': False, 'error': 'No data received'}), 400
 
     username = data.get('username')
-    email = data.get('email')
+    email = data.get('email').lower()
     password = data.get('password')
 
     if not username or not email or not password:
