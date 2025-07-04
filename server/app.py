@@ -12,7 +12,7 @@ CORS(app, origins=["https://yourworkspace-five.vercel.app"], supports_credential
 
 # Register quote blueprint
 app.register_blueprint(quote_bp)
-app.register_blueprint(users)
+app.register_blueprint(users) 
 
 # Upload folder config
 UPLOAD_FOLDER = 'uploads/profile_images'
