@@ -15,7 +15,7 @@ def register():
         return jsonify({'success': False, 'error': 'No data received'}), 400
 
     username = data.get('username')
-    email = data.get('email').lower()
+    email = data.get('email', '').lower().strip()
     password = data.get('password')
 
     if not username or not email or not password:
@@ -24,7 +24,7 @@ def register():
     hashed_pw = hash_password(password)
 
     conn = get_connection()
-    cursor = conn.cursor(pymysql.cursors.DictCursor)
+    cursor = conn.cursor()
 
     try:
         cursor.execute("SELECT * FROM users WHERE email = %s OR username = %s", (email, username))
@@ -40,8 +40,10 @@ def register():
         user_id = cursor.lastrowid
 
         return jsonify({'success': True, 'message': 'User registered', 'user_id': user_id}), 201
+
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
@@ -52,24 +54,15 @@ def login():
         return '', 200
 
     try:
-        # Force parse JSON
         data = request.get_json(force=True)
-        print("Login data received:", data)
-
-        if not isinstance(data, dict):
-            return jsonify({'error': 'Invalid JSON structure'}), 400
-
         identifier = data.get('identifier')
         password = data.get('password')
-
-        print("identifier:", identifier)
-        print("password:", password)
 
         if not identifier or not password:
             return jsonify({'error': 'Missing credentials'}), 400
 
         conn = get_connection()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = conn.cursor()
 
         cursor.execute("SELECT * FROM users WHERE username = %s OR email = %s", (identifier, identifier))
         user = cursor.fetchone()
@@ -77,7 +70,7 @@ def login():
         if not user:
             return jsonify({'error': 'User not found'}), 404
 
-        hashed_pw = hashlib.sha256(password.encode()).hexdigest()
+        hashed_pw = hash_password(password)
         if user['password'] != hashed_pw:
             return jsonify({'error': 'Incorrect password'}), 401
 
@@ -93,45 +86,39 @@ def login():
         }), 200
 
     except Exception as e:
-        print("Login Error:", str(e))
         return jsonify({'error': f'Login failed: {str(e)}'}), 500
+
+    finally:
+        cursor.close()
+        conn.close()
 
 @users.route('/delete_account', methods=['POST', 'OPTIONS'])
 def delete_account():
     if request.method == 'OPTIONS':
-        return '', 200  
+        return '', 200
 
     try:
         data = request.get_json(force=True)
-        print("🧪 Received payload:", data)
+        email = data.get('email', '').strip().lower()
 
-        email = data.get('email')
         if not email:
             return jsonify({'success': False, 'error': 'Email is required'}), 400
 
-        email = email.strip().lower()  # ✅ Normalize email
-
         conn = get_connection()
-        cursor = conn.cursor(pymysql.cursors.DictCursor)
+        cursor = conn.cursor()
 
         query = "DELETE FROM users WHERE LOWER(email) = %s"
         cursor.execute(query, (email,))
         conn.commit()
 
         if cursor.rowcount == 0:
-            print("❌ No user found with email:", email)
             return jsonify({'success': False, 'error': 'User not found'}), 404
 
-        print("✅ Deleted user with email:", email)
         return jsonify({'success': True, 'message': 'Account deleted'}), 200
 
     except Exception as e:
-        print("❌ Delete Account Error:", str(e)) 
         return jsonify({'success': False, 'error': f'Deletion failed: {str(e)}'}), 500
 
     finally:
-        try:
-            cursor.close()
-            conn.close()
-        except:
-            pass
+        cursor.close()
+        conn.close()
