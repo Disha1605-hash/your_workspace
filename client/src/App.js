@@ -8,6 +8,7 @@ import Main from './Mycomponents/Main';
 import About from './Mycomponents/About';
 import Workspace from './Mycomponents/Workspace';
 import './App.css';
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
