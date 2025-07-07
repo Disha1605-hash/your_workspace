@@ -23,6 +23,7 @@ function App() {
           <Route path="/workspace" element={<Workspace />} />
 
         </Routes>
+       <Analytics />
       </div>
     </Router>
   );
